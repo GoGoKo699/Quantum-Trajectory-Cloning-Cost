@@ -1,25 +1,20 @@
-# Operational model and research claim
+# Operational model and research proposition
 
-Let (A) be an (M)-dimensional label register and (B) a qubit. The unknown pure source is
-[
-|Psiangle_{AB}=sum_{z=1}^Msqrt{p_z}|zangle_A|psi_zangle_B,
-qquad sum_zp_z=1.
-]
-The label measurement is fixed and public. The desired **unconditional, normalized** output is
-[
-T(Psi)=sum_z p_z|zanglelangle z|_Zotimes
-(|psi_zanglelanglepsi_z|)^{otimes2}_{B_1B_2}.
-]
-A processor receives (k) independent copies of (|Psiangle); it may use arbitrary joint channels, ancillas, intermediate measurements, classical control and postselection, but **all** consumed copies and failures count. The target includes the label distribution: merely cloning a conditionally selected branch does not solve this task. The primary accuracy measure is (D(ho,T)=	frac12|ho-T|_1), without conditioning on a favorable output event. A separate heralded formulation must explicitly count success and unsuccessful trials.
+Let \(A\) be an \(M\)-dimensional label register and \(B\) a qubit. The unknown pure source is
+\[
+|\Psi\rangle_{AB}=\sum_{z=1}^{M}\sqrt{p_z}|z\rangle_A|\psi_z\rangle_B,\qquad \sum_zp_z=1.
+\]
+Measuring the public label register produces \(z\) with probability \(p_z\) and conditional state \(|\psi_z\rangle\). The required unconditional output is
+\[
+T(\Psi)=\sum_z p_z|z\rangle\langle z|_Z\otimes
+(|\psi_z\rangle\langle\psi_z|)^{\otimes2}_{B_1B_2}.
+\]
+A processor receives \(k\) independent source copies and may perform arbitrary collective channels, ancillas, adaptive measurements and classical control. Every consumed copy and unsuccessful attempt counts. Error is half trace distance \(D(\rho,T)=\frac12\|\rho-T\|_1\). A heralded success formulation requires a separate explicit success threshold.
 
-## Proposed separation and its proof obligations
+## Proposed separation
 
-For even (M), consider probabilities in ({1/(2M),3/(2M)}), with exactly (M/2) of each. The multiset is public; the assignment to labels is hidden. Conditional qubit states are arbitrary. The proposed fixed-small-error law is (Theta(M)) copies when the assignment is hidden, versus (Theta(sqrt M)) when it is given. **This is a research proposition, not a verified theorem in this repository until the full universal converse and constructive upper bound are checked.**
+For even \(M\), exactly half of the \(p_z\) are \(1/(2M)\) and half are \(3/(2M)\). The multiset is public, but its assignment to labels may be hidden. The proposed fixed-small-error copy law is \(\Theta(M)\) for hidden assignment and \(\Theta(\sqrt M)\) when the assignment is supplied. **The matching lower and upper bounds have not been established in this repository and this statement remains a research conjecture.**
 
-The linear upper bound is immediate up to constants: measure one source to obtain (z), retain its qubit, and sample further copies until the same label reappears; output both qubits. Since (p_zge1/(2M)), expected total consumption is at most (1+2M), with exact target law. A fixed hard budget (O(Mlog(1/delta))) bounds the abort probability by (delta). This works without knowing the probabilities.
+A rigorous converse must rule out arbitrary coherent processing of the input copies, not just measurement-first sampling. A known-assignment square-root protocol must reproduce the *original* label probabilities and output two correct qubits, with all rejected trials charged. The exact linear-cost repeat-label protocol is proved in [analysis](analysis.md).
 
-The square-root lower bound from collision/no-cloning arguments and the proposed **linear** lower bound require separate proofs: a classical two-point probability-testing argument alone does not rule out collective coherent processors. A complete converse must compare the actual (k)-copy quantum ensembles (not merely measured labels) and a physically measurable output witness, with uniform constants and the target error convention. The known-assignment square-root upper bound must provide a source-independent CPTP or heralded protocol, correct its selection bias and explicitly charge rejected attempts. Do not infer either statement from birthday collisions alone.
-
-## Important boundaries
-
-The input is a pure coherent source, not an oracle for its preparation. A source-dependent classical probability table changes the access model. The output is a labeled pair of **quantum states**, not a scalar expectation, a sample of labels, or two independent marginal ensembles. The constant-error threshold, success convention and whether the probability assignment is fully known must be held fixed across comparisons.
+The task is not scalar expectation estimation, marginal ensemble generation, or access to a source-preparation oracle. The error and success conventions must be identical across both information models.
